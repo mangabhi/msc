@@ -114,8 +114,10 @@ const Hero = () => {
             <div className="glass-panel h-full w-full overflow-hidden p-1">
               <div className="h-full w-full rounded-xl bg-gray-200 overflow-hidden flex items-center justify-center">
                 <div className="text-gray-400 text-center px-8">
-                  <p className="text-sm">Student collaboration image</p>
-                  <p className="text-xs mt-1">(Placeholder for illustration)</p>
+                  {/* <img src="https://images.pexels.com/photos/1462633/pexels-photo-1462633.jpeg" alt="Student Collaboration" className="w-full h-auto" /> */}
+                  {/* <p className="text-sm">Student collaboration</p>
+                  <p className="text-xs mt-1">(Placeholder for illustration)</p> */}
+                  <video autoPlay loop muted className="w-full h-auto" src="https://videos.pexels.com/video-files/3209298/3209298-uhd_2560_1440_25fps.mp4"></video>
                 </div>
               </div>
             </div>
