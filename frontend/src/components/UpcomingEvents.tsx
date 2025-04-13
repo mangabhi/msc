@@ -106,7 +106,7 @@ const UpcomingEvents = () => {
   };
 
   return (
-    <section id="upcomingevents" ref={sectionRef} className="events-section">
+    <section id="events" ref={sectionRef} className="events-section">
       <div className="container">
         <div className="events-header">
           <h2 className="section-title slide-up delay-1">Upcoming Events</h2>
@@ -117,7 +117,7 @@ const UpcomingEvents = () => {
             <>
               <Dialog>
                 <DialogTrigger className="mb-6 rounded bg-primary px-4 py-2 text-white hover:bg-primary-dark">
-                  Add Resource
+                  Add Event
                 </DialogTrigger>
                 <DialogContent className="event-dialog">
                   <DialogHeader>
