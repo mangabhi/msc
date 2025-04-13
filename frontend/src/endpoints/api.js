@@ -8,6 +8,7 @@ const REFRESH_URL = `${BASE_URL}token/refresh/`
 const LOGOUT_URL = `${BASE_URL}logout/`
 const NOTES_URL = `${BASE_URL}notes/`
 const AUTH_URL = `${BASE_URL}authenticated/`
+const RESOURCE_URL = `${BASE_URL}document/`
 
 const POST_CLASS_URL = `${BASE_URL}create-class/`
 const GET_CLASS_URL = `${BASE_URL}classes/`
@@ -96,10 +97,55 @@ export const logout =async()=>{
 
 export const is_authenticated =async()=>{
     try {
-        await axios.get(AUTH_URL, {},{ withCredentials: true });
-        return true;
+       const response = await axios.get(AUTH_URL, {},{ withCredentials: true });
+        return response.data;
     }
     catch(error){
         return false
     }
 }
+
+export const upload_resource = async (formData) => {
+    try {
+        const response = await axios.post(
+            RESOURCE_URL, 
+            formData, 
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true, // Ensures cookies are included
+            }
+        );
+        console.log('Upload success:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Upload error:', error);
+        return false; // Return false or handle the error as needed
+    }
+};
+export const get_resource = async () => {
+    try {
+        const response= await axios.get(
+            RESOURCE_URL
+        );
+        return response;
+    } catch (error) {
+        console.error('Something Went Wrong:', error);
+        return false; 
+    }
+};
+
+export const delete_resource = async (id) => {
+    try {
+        const response = await axios.delete(
+            `${RESOURCE_URL}${id}/`,
+            { withCredentials: true } 
+        );
+        console.log('Delete success:', response.data);
+        return true; 
+    } catch (error) {
+        console.error('Delete error:', error);
+        return false; 
+    }
+};

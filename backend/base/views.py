@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Note ,PostResource
+from .models import Note ,PostResource,DocumentModel
 from .serializer import NoteSerializer, UserRegisterSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status ,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .serializer import UserSerializer ,UploadSerializer
+from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth import get_user_model
 
@@ -33,7 +33,7 @@ def register(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def is_authenticated(request):
-    return Response({'authenticated': True})
+    return Response({'authenticated': True, 'is_superuser': request.user.is_superuser, 'is_staff': request.user.is_staff})
 
 
 @api_view(['POST'])
@@ -136,3 +136,10 @@ class CustomTokenRefreshView(TokenRefreshView):
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = PostResource.objects.all()
     serializer_class = UploadSerializer
+    permission_classes = [AllowAny]
+
+class UploadViewSet(viewsets.ModelViewSet):
+    queryset = DocumentModel.objects.all()
+    serializer_class = DocumentSerializer
+    permission_classes = [AllowAny]
+

@@ -19,7 +19,15 @@ def validate_file_type_and_size(value):
 class PostResource(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    fileupload = models.FileField(upload_to='uploads/',null=True,blank=True),
+    fileupload = models.FileField(upload_to='uploads/',null=True,blank=True)
+
+    def __str__(self):
+        return self.title
+
+class DocumentModel(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    fileupload = models.FileField(upload_to='resource/',null=True,blank=True)
 
     def __str__(self):
         return self.title

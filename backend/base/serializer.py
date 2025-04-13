@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Note 
-from .models import PostResource
+from .models import PostResource ,DocumentModel
 from django.contrib.auth.models import User
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -29,12 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
-# class ResourcesSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PostResource
-#         fields = ['title','description','fileupload','created_at']
 
 class UploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostResource
+        fields = '__all__'
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentModel
         fields = '__all__'
