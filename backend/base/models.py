@@ -31,3 +31,14 @@ class DocumentModel(models.Model):
 
     def __str__(self):
         return self.title
+
+class UpcomingEvent(models.Model):
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    description = models.TextField(null=True)
+    date_from = models.DateField()
+    date_to = models.DateField()
+    image = models.FileField(upload_to='event/',null=True,blank=True)  # storing image link (URL)
+
+    def __str__(self):
+        return self.name

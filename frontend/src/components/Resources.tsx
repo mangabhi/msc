@@ -16,7 +16,6 @@ import {
   delete_resource,
   is_authenticated,
 } from "../endpoints/api";
-import Cookies from "js-cookie";
 
 interface Resource {
   id: number;

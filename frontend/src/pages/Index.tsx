@@ -6,6 +6,7 @@ import Resources from "@/components/Resources";
 import StudentProfiles from "@/components/StudentProfiles";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import UpcomingEvents from "@/components/UpcomingEvents";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
         <Hero />
         <Features />
         <Resources />
+        <UpcomingEvents />
         <StudentProfiles />
         <ContactForm />
       </main>

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Note ,PostResource,DocumentModel
+from .models import Note ,PostResource,DocumentModel,UpcomingEvent
 from .serializer import NoteSerializer, UserRegisterSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status ,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer
+from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer, UpcomingEventSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth import get_user_model
 
@@ -143,3 +143,7 @@ class UploadViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [AllowAny]
 
+class UpcomingEventViewSet(viewsets.ModelViewSet):
+    queryset = UpcomingEvent.objects.all()
+    serializer_class = UpcomingEventSerializer
+    permission_classes = [AllowAny]

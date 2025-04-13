@@ -9,7 +9,7 @@ const LOGOUT_URL = `${BASE_URL}logout/`
 const NOTES_URL = `${BASE_URL}notes/`
 const AUTH_URL = `${BASE_URL}authenticated/`
 const RESOURCE_URL = `${BASE_URL}document/`
-
+const UPCOMING_EVENTS_URL = `${BASE_URL}upcomingevent/`
 const POST_CLASS_URL = `${BASE_URL}create-class/`
 const GET_CLASS_URL = `${BASE_URL}classes/`
 
@@ -140,6 +140,52 @@ export const delete_resource = async (id) => {
     try {
         const response = await axios.delete(
             `${RESOURCE_URL}${id}/`,
+            { withCredentials: true } 
+        );
+        console.log('Delete success:', response.data);
+        return true; 
+    } catch (error) {
+        console.error('Delete error:', error);
+        return false; 
+    }
+};
+
+export const upcoming_event = async (formData) => {
+    console.log(formData,"formData")
+    try {
+        const response = await axios.post(
+            UPCOMING_EVENTS_URL,
+            formData, 
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true, // Ensures cookies are included
+            },  
+        );
+        return response.data.success
+    } catch (error) {
+        console.error("Post UpcomingEvents failed:", error);
+        return false;  // Return false or handle the error as needed
+    }
+}
+
+export const get_upcoming_event = async () => {
+    try {
+        const response= await axios.get(
+            UPCOMING_EVENTS_URL
+        );
+        return response;
+    } catch (error) {
+        console.error('Something Went Wrong:', error);
+        return false; 
+    }
+};
+
+export const delete_upcoming_event = async (id) => {
+    try {
+        const response = await axios.delete(
+            `${UPCOMING_EVENTS_URL}${id}/`,
             { withCredentials: true } 
         );
         console.log('Delete success:', response.data);

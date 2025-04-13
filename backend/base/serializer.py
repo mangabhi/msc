@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Note 
-from .models import PostResource ,DocumentModel
+from .models import PostResource ,DocumentModel, UpcomingEvent
 from django.contrib.auth.models import User
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -39,4 +39,9 @@ class UploadSerializer(serializers.ModelSerializer):
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = DocumentModel
+        fields = '__all__'
+
+class UpcomingEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UpcomingEvent
         fields = '__all__'
