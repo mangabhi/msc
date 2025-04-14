@@ -2,8 +2,18 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { is_authenticated,logout } from "@/endpoints/api";
+import { useNavigate } from "react-router-dom";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { User, LogOut } from "lucide-react";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,7 +46,8 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await logout(); // Call the logout API
-      setIsAuthenticated(false); // Update state to reflect logout
+      setIsAuthenticated(false); 
+      navigate("/");
       console.log("Logged out successfully");
     } catch (error) {
       console.error("Error during logout:", error);
@@ -61,7 +72,7 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
-            {["Features", "Community", "Resources", "Events","Contact"].map((item) => (
+            {["Features", "Community", "Resources", "Events"].map((item) => (
               <li key={item}>
                 <a
                   href={`#${item.toLowerCase()}`}
@@ -71,28 +82,42 @@ const Header = () => {
                 </a>
               </li>
             ))}
-            {!isAuthenticated ? ( // Conditionally render Login and Sign Up buttons
+             {isAuthenticated ? (
+              <li className="nav-item">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="user-dropdown-trigger">
+                    <div className="user-icon" >
+                      <User size={20} />Welcome 
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="dropdown-menu-item">
+                        <User size={16} className="dropdown-icon" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="dropdown-menu-item">
+                      <LogOut size={16} className="dropdown-icon" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </li>
+            ) : (
               <>
-                <li>
+                <li className="nav-item">
                   <Link to="/login" className="nav-link">
                     Login
                   </Link>
                 </li>
-                <li>
+                <li className="nav-item">
                   <Link to="/register" className="btn btn-primary">
                     Sign Up
                   </Link>
                 </li>
               </>
-            ) : (
-              <li>
-                <button
-                  className="nav-link"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </li>
             )}
           </ul>
         </nav>
@@ -136,7 +161,7 @@ const Header = () => {
         )}
       >
         <ul className="container mx-auto flex flex-col py-4 px-6">
-          {["Features", "Community", "Resources","Events","Contact"].map((item) => (
+          {["Features", "Community", "Resources","Events"].map((item) => (
             <li
               key={item}
               className="py-3 border-b border-gray-100 last:border-0"

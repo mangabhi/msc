@@ -18,7 +18,7 @@ const Index = () => {
         <Resources />
         <UpcomingEvents />
         <StudentProfiles />
-        <ContactForm />
+        {/* <ContactForm /> */}
       </main>
       <Footer />
     </div>
