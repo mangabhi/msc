@@ -3,6 +3,8 @@ import { Link ,useNavigate} from "react-router-dom";
 import {login} from "@/endpoints/api";
 import "./styles/Auth.css";
 import { log } from "console";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -36,6 +38,8 @@ const Login = () => {
 
 
   return (
+    <>
+    <Header/>
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
@@ -91,6 +95,8 @@ const Login = () => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles/Auth.css";
+import {register} from "../endpoints/api.js"
+import Header from "./Header.js";
+import Footer from "./Footer.js";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,10 +13,9 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!name || !email || !password || !confirmPassword) {
       setError("Please fill in all fields");
       return;
@@ -23,19 +25,25 @@ const Register = () => {
       setError("Passwords do not match");
       return;
     }
-
-    // Here you would typically handle registration
-    console.log("Registration attempt with:", { name, email, password });
-    
-    // For demo purposes, clear the form
-    setName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setError("");
+    const formData = new FormData();
+    formData.append("username", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    try {
+      const response = await register(formData);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setError("");
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
+    <>
+    <Header/>
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
@@ -47,13 +55,14 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name">UserName</label>
             <input
               type="text"
-              id="name"
-              value={name}
+              id="username"
+              name="username"
+              required
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your full name"
+              placeholder="Enter your user name"
             />
           </div>
 
@@ -62,7 +71,8 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              value={email}
+              name="email"
+              required
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
             />
@@ -74,7 +84,8 @@ const Register = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                value={password}
+                name="password"
+                required
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a password"
               />
@@ -93,20 +104,11 @@ const Register = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="confirmPassword"
-              value={confirmPassword}
+              name="confirmPassword"
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
             />
           </div>
-
-          <div className="terms-agreement">
-            <input type="checkbox" id="terms" required />
-            <label htmlFor="terms">
-              I agree to the <Link to="/terms" className="auth-link">Terms of Service</Link> and{" "}
-              <Link to="/privacy" className="auth-link">Privacy Policy</Link>
-            </label>
-          </div>
-
           <button type="submit" className="auth-button">
             Create Account
           </button>
@@ -122,6 +124,8 @@ const Register = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

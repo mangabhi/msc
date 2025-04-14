@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Note ,PostResource,DocumentModel,UpcomingEvent
+from .models import Note ,PostResource,DocumentModel,UpcomingEvent,ProfileDetails
 from .serializer import NoteSerializer, UserRegisterSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status ,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer, UpcomingEventSerializer
+from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer, UpcomingEventSerializer, ProfileDetailsSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth import get_user_model
 
@@ -147,3 +147,24 @@ class UpcomingEventViewSet(viewsets.ModelViewSet):
     queryset = UpcomingEvent.objects.all()
     serializer_class = UpcomingEventSerializer
     permission_classes = [AllowAny]
+
+class ProfileView(viewsets.ModelViewSet):
+    queryset = ProfileDetails.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileDetailsSerializer
+
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_profile(request, pk):
+    try:
+        profile = ProfileDetails.objects.get(pk=pk)
+    except ProfileDetails.DoesNotExist:
+        return Response({"error": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = ProfileDetailsSerializer(profile, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

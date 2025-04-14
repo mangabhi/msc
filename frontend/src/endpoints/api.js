@@ -12,6 +12,7 @@ const RESOURCE_URL = `${BASE_URL}document/`
 const UPCOMING_EVENTS_URL = `${BASE_URL}upcomingevent/`
 const POST_CLASS_URL = `${BASE_URL}create-class/`
 const GET_CLASS_URL = `${BASE_URL}classes/`
+const GET_PROFILE_URL = `${BASE_URL}profile/`
 
 axios.defaults.withCredentials = true; 
 
@@ -45,8 +46,8 @@ export const get_notes = async () => {
     }
 };
 
-export const register = async (username, email, password) => {
-    const response = await axios.post(REGISTER_URL, {username, email, password}, { withCredentials: true });
+export const register = async (formData) => {
+    const response = await axios.post(REGISTER_URL, formData, { withCredentials: true });
     return response.data;
 };
 
@@ -195,3 +196,34 @@ export const delete_upcoming_event = async (id) => {
         return false; 
     }
 };
+
+export const get_profile = async () => {
+    try {
+        const response= await axios.get(
+            GET_PROFILE_URL
+        );
+        return response;
+    } catch (error) {
+        console.error('Something Went Wrong:', error);
+        return false; 
+    }
+}
+export const update_profile = async (formData) => {
+    console.log(formData,"formData")
+    try {
+        const response = await axios.put(
+            `${GET_PROFILE_URL}1/update/`,
+            formData, 
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true, 
+            },  
+        );
+        return response
+    } catch (error) {
+        console.error("Update failed:", error);
+        return false;  
+    }
+}
