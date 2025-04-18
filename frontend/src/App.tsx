@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
 import Profile from "@/components/Profile";
+import Chat from "@/components/Chat";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chat" element={<Chat />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

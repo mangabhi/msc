@@ -1,7 +1,7 @@
 
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
-from .views import get_notes ,register,CustomTokenObtainPairView,CustomTokenRefreshView,is_authenticated,logout,DocumentViewSet,UploadViewSet,UpcomingEventViewSet,ProfileView,update_profile,get_profile
+from .views import get_notes ,register,CustomTokenObtainPairView,CustomTokenRefreshView,is_authenticated,logout,DocumentViewSet,UploadViewSet,UpcomingEventViewSet,ProfileView,update_profile,get_profile,MessageAPIViewSet
 
 router = DefaultRouter()
 router.register(r'document', DocumentViewSet)
@@ -18,5 +18,6 @@ urlpatterns = [
     path('notes/', get_notes, name='get_notes'),
     path('profile/update/', update_profile, name='update_profile'),
     path('profile/get/', get_profile, name='get_profile'),
+    path('message/', MessageAPIViewSet.as_view(), name='perform_create'),
     path('', include(router.urls)),
 ]

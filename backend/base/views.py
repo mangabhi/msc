@@ -9,7 +9,9 @@ from rest_framework import status ,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .serializer import UserSerializer ,UploadSerializer, DocumentSerializer, UpcomingEventSerializer, ProfileDetailsSerializer
 from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from .pusher import pusher_client
 
 # Create your views here.
 
@@ -189,3 +191,16 @@ def get_profile(request, pk=None):
 
     serializer = ProfileDetailsSerializer(profile)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class MessageAPIViewSet(APIView):
+    # permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        print(f"Message data received: {request}")
+        pusher_client.trigger('chat', 'message', {
+            'username': request.data['username'],
+            'message': request.data['message'],
+            # 'timestamp': request.data['timestamp']
+        }) 
+
+        return Response([])
