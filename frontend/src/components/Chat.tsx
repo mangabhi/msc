@@ -5,7 +5,7 @@ import "../components/styles/Chat.css";
 import Pusher from "pusher-js";
 
 const Chat = () => {
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [userName, setUserName] = useState("");
   const [newMessage, setNewMessage] = useState("");
   let allMessages = [];
@@ -19,7 +19,8 @@ const Chat = () => {
     const channel = pusher.subscribe("chat");
     channel.bind("message", function (data) {
       allMessages.push(data);
-      setMessages(allMessages);
+      setMessages((prevMessages) => [...prevMessages, data]);
+      // setMessages(allMessages);
     });
     return () => {
         channel.unbind_all();
@@ -61,10 +62,12 @@ const Chat = () => {
           />
         </div> 
         <div className="messages-container">
-          {messages.map((message) => (
+          {messages.map((message,index) => (
             <div
-            //   key={message.id}
-            //   className={`message ${message.sent ? "sent" : "received"}`}
+              key={index}
+            className={`message ${
+              message.username === userName ? "sent" : "received"
+            }`}
             >
               <div className="message-content">
                 <p>{message.message}</p>
