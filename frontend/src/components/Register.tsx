@@ -4,6 +4,7 @@ import "./styles/Auth.css";
 import {register} from "../endpoints/api.js"
 import Header from "./Header.js";
 import Footer from "./Footer.js";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +33,15 @@ const Register = () => {
     formData.append("password", password);
     try {
       const response = await register(formData);
+      console.log(response.username);
+      if(response && response.username) {
         setName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
         setError("");
+        navigate("/login");
+      }
     } catch (err) {
       setError("An error occurred. Please try again.");
     }

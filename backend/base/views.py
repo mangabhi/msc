@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Note ,PostResource,DocumentModel,UpcomingEvent,ProfileDetails
+from .models import Note ,PostResource,DocumentModel,UpcomingEvent,Profile
 from .serializer import NoteSerializer, UserRegisterSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -26,7 +26,10 @@ def get_notes(request):
 def register(request):
     serializer = UserRegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        user=serializer.save()
+
+        Profile.objects.create(user=user)
+
         return Response(serializer.data)
     return Response(serializer.errors)
 
@@ -149,7 +152,7 @@ class UpcomingEventViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 class ProfileView(viewsets.ModelViewSet):
-    queryset = ProfileDetails.objects.all()
+    queryset = Profile.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileDetailsSerializer
 
@@ -157,14 +160,32 @@ class ProfileView(viewsets.ModelViewSet):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_profile(request, pk):
+def update_profile(request, pk=None):
+    print(f"Request received to update profile with pk: {pk}")
     try:
-        profile = ProfileDetails.objects.get(pk=pk)
-    except ProfileDetails.DoesNotExist:
+        profile = Profile.objects.get(user=request.user)
+        print(f"Profile found: {profile}")
+    except Profile.DoesNotExist:
+        print(f"Profile with pk {pk} does not exist")
         return Response({"error": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
+
     serializer = ProfileDetailsSerializer(profile, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+    print(f"Validation errors: {serializer.errors}")
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_profile(request, pk=None):
+    print(f"Request received to get profile with pk: {pk}")
+    try:
+        profile = Profile.objects.get(user=request.user)
+        print(f"Profile found: {profile}")
+    except Profile.DoesNotExist:
+        print(f"Profile with pk {pk} does not exist")
+        return Response({"error": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ProfileDetailsSerializer(profile)
+    return Response(serializer.data, status=status.HTTP_200_OK)

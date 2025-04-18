@@ -12,7 +12,8 @@ const RESOURCE_URL = `${BASE_URL}document/`
 const UPCOMING_EVENTS_URL = `${BASE_URL}upcomingevent/`
 const POST_CLASS_URL = `${BASE_URL}create-class/`
 const GET_CLASS_URL = `${BASE_URL}classes/`
-const GET_PROFILE_URL = `${BASE_URL}profile/`
+const GET_PROFILE_URL = `${BASE_URL}profile/get/`
+const PUT_PROFILE_URL = `${BASE_URL}profile/update/`
 
 axios.defaults.withCredentials = true; 
 
@@ -199,31 +200,29 @@ export const delete_upcoming_event = async (id) => {
 
 export const get_profile = async () => {
     try {
-        const response= await axios.get(
-            GET_PROFILE_URL
-        );
-        return response;
+        const response = await axios.get(GET_PROFILE_URL, { withCredentials: true });
+        console.log('Profile fetched successfully:', response.data);
+        return response.data; // Return the profile data
     } catch (error) {
-        console.error('Something Went Wrong:', error);
-        return false; 
+        console.error('Error fetching profile:', error);
+        return false; // Return false or handle the error as needed
     }
-}
+};
+
 export const update_profile = async (formData) => {
-    console.log(formData,"formData")
     try {
         const response = await axios.put(
-            `${GET_PROFILE_URL}1/update/`,
-            formData, 
+            PUT_PROFILE_URL, 
+            formData,
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+               
                 withCredentials: true, 
-            },  
+            }
         );
-        return response
+        console.log('Profile updated successfully:', response.data);
+        return response.data; // Return the updated profile data
     } catch (error) {
-        console.error("Update failed:", error);
-        return false;  
+        console.error('Error updating profile:', error);
+        return false; // Return false or handle the error as needed
     }
-}
+};
