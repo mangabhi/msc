@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut,MessageSquareText,Calendar } from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -98,10 +98,25 @@ const Header = () => {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/chat" className="dropdown-menu-item">
+                        <MessageSquareText size={16} className="dropdown-icon" />
+                        Message
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/calendar" className="dropdown-menu-item">
+                        <Calendar size={16} className="dropdown-icon" />
+                        Calender
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout} className="dropdown-menu-item">
                       <LogOut size={16} className="dropdown-icon" />
                       Logout
                     </DropdownMenuItem>
+                   
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

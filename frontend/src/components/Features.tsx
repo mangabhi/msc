@@ -88,11 +88,11 @@ const Features = () => {
       )
     },
     {
-      title: "Study Groups",
-      description: "Create or join study groups based on your courses, interests, or academic goals.",
+      title: "Chat Support Globally",
+      description: "Connect with peers and mentors worldwide through real-time chat support for academic and personal growth.",
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.2429 21 6.20969 21 8.5C21 11.5376 18.5376 14 15.5 14C14.4745 14 13.5167 13.7429 12.6838 13.2852L13.6724 11.6997C14.1638 11.8926 14.7163 12 15.5 12C17.433 12 19 10.433 19 8.5C19 7.0681 18.1317 5.82445 16.8662 5.31272L17.5962 3.41321Z" fill="currentColor" />
+          <path d="M12 2C6.48 2 2 5.58 2 10C2 12.39 3.19 14.53 5.12 15.91L4.1 19.9C4.04 20.16 4.14 20.43 4.36 20.58C4.49 20.67 4.64 20.71 4.79 20.71C4.91 20.71 5.03 20.68 5.14 20.62L9.5 18.5C10.3 18.67 11.14 18.76 12 18.76C17.52 18.76 22 15.18 22 10C22 5.58 17.52 2 12 2ZM12 16.76C11.3 16.76 10.61 16.69 9.94 16.56L9.5 16.48L6.1 18.1L6.74 15.39L6.5 15.22C4.79 14.03 3.76 12.15 3.76 10C3.76 6.69 7.5 4 12 4C16.5 4 20.24 6.69 20.24 10C20.24 13.31 16.5 16.76 12 16.76ZM8 9H16V11H8V9ZM8 12H13V14H8V12Z" fill="currentColor" />
         </svg>
       )
     },
@@ -124,11 +124,11 @@ const Features = () => {
       )
     },
     {
-      title: "Skill Development",
-      description: "Learn new skills through peer-led workshops, tutorials, and collaborative projects.",
+      title: "Assessment Reminder",
+      description: "Stay on top of your assignments and exams with timely reminders and notifications.",
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 22V20H11V22H7ZM13 22V20H17V22H13ZM3 18V16H5V4H19V16H21V18H3ZM7 16H17V6H7V16ZM10 14H14V13.2367L11.9872 11.2122L13.2428 9.95205L14.0202 10.7343L15.2929 9.46729L12.0031 6.14428L7.70708 10.4673L8.98001 11.7403L10.1509 10.5636L11.4038 11.8278L9.38757 13.8556L10 14Z" fill="currentColor" />
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z" fill="currentColor" />
         </svg>
       )
     }

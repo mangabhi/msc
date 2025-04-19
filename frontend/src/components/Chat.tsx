@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { MessageCircle, Send, Paperclip, Image } from "lucide-react";
 import Header from "@/components/Header";
 import "../components/styles/Chat.css";
 import Pusher from "pusher-js";
 
 const Chat = () => {
+  const cardRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [userName, setUserName] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -45,7 +46,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="app">
+    <div className="app" ref={cardRef}>
       <Header />
       <main className="chat-container">
         <div className="chat-header">

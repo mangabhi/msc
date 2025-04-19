@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Edit, EditIcon, MapPin } from "lucide-react";
+import { Edit, MapPin } from "lucide-react";
 import Header from "@/components/Header";
 import {
   Dialog,
@@ -18,7 +17,7 @@ import {
 import Footer from "@/components/Footer";
 import "../components/styles/Profile.css";
 import { update_profile, get_profile, is_authenticated } from "../endpoints/api"
-import { set } from "date-fns";
+
 
 interface ProfilePageProps {
   user?: {
@@ -70,13 +69,11 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
   const [address, setAddress] = useState<string>("");
   const [designation, setDesignation] = useState<string>("");
   const [interests, setInterests] = useState<string[]>([]);
-
   useEffect(() => {
     // Check authentication status
     const checkAuth = async () => {
       try {
         const response = await is_authenticated(); // Call the API
-        console.log("Authentication response:", response);
         setIsAuthenticated(response); // Update state based on response
       } catch (error) {
         console.error("Error checking authentication:", error);
@@ -84,8 +81,7 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
     };
 
     checkAuth();
-  }, []);
-  console.log("interests", interests);
+  }, [profile]);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -97,7 +93,11 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
           setFile(profileData.profile_picture || null);
           setAddress(profileData.address || "");
           setDesignation(profileData.designation || "");
-          setInterests(profileData.interests.split(",") || []); // Set interests from profile data
+          setInterests(
+            Array.isArray(profileData?.interests)
+              ? profileData.interests
+              : profileData?.interests?.split(",").map((interest) => interest.trim()) || []
+          );
         }
       } catch (error) {
         console.error("Failed to fetch profile:", error);
@@ -114,13 +114,29 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
     formData.append("description", description);
     formData.append("address", address);
     formData.append("designation", designation);
-    formData.append("interests", JSON.stringify(interests)); // Convert array to comma-separated string
+    formData.append("interests", JSON.stringify(interests));
     if (file) {
       formData.append("profile_picture", file);
     }
     try {
       const response = await update_profile(formData);
       console.log("Resource upload successful:", response);
+      // Optionally, you can refresh the profile data after a successful update
+      const updatedProfile = await get_profile();
+    if (updatedProfile) {
+      setProfile(updatedProfile);
+      setName(updatedProfile.name || "");
+      setDescription(updatedProfile.description || "");
+      setFile(updatedProfile.profile_picture || null);
+      setAddress(updatedProfile.address || "");
+      setDesignation(updatedProfile.designation || "");
+      setInterests(
+        Array.isArray(updatedProfile?.interests)
+          ? updatedProfile.interests
+          : updatedProfile?.interests?.split(",").map((interest) => interest.trim()) || []
+      );
+    }
+
     } catch (err) {
       console.error("Login error:", err);
     }
@@ -138,12 +154,8 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
               <CardHeader className="profile-header">
                 <div className="profile-avatar-wrapper">
                   <Avatar className="profile-avatar">
-                    {user.avatar ? (
-                      <AvatarImage src={user.avatar} alt={user.name} />
-                    ) : (
-                      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                    )}
-                  </Avatar>
+                      <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
+                   </Avatar>
                 </div>
 
                 <div className="profile-title-block">
@@ -176,7 +188,6 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
                           <DialogHeader>
                             <DialogTitle>Update Profile</DialogTitle>
                             <DialogDescription>
-                              {/* Fill in the details below to add a new resource. */}
                             </DialogDescription>
                           </DialogHeader>
                           <form onSubmit={handleSubmit}>
@@ -274,8 +285,7 @@ const ProfilePage = ({ user = defaultUser }: ProfilePageProps) => {
                                 type="text"
                                 name="interests"
                                 id="interests"
-                                value={interests.join(",")}
-                                // Convert array to comma-separated string for input value
+                                value={Array.isArray(interests) ? interests.join(",") : ""}
                                 required
                                 onChange={(e) => setInterests(e.target.value.split(","))}
                                 placeholder="Enter interests separated by commas"

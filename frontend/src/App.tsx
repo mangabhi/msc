@@ -9,7 +9,7 @@ import Login from "@/components/Login";
 import Register from "@/components/Register";
 import Profile from "@/components/Profile";
 import Chat from "@/components/Chat";
-
+import CalendarPage from "@/components/Calendar";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -24,6 +24,7 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/calendar" element={<CalendarPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

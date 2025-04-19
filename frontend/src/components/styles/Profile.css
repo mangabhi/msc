@@ -3,6 +3,7 @@
     padding: 3rem 0;
     background-color: var(--background-color, #f8f9fa);
     min-height: 100vh;
+    margin-top: 50px;
   }
   
   .profile-container {
